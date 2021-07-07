@@ -1,9 +1,18 @@
 #include <Arduino.h>
 
-void setup() {
-  // put your setup code here, to run once:
-}
+// cppcheck-suppress unusedFunction
+/**
+ * @brief Called when the program starts. Initializes variables, pin modes,
+ * start using libraries, etc. Only runs once, after each powerup or reset of
+ * the board.
+ * See https://www.arduino.cc/reference/en/language/structure/sketch/setup/
+ */
+void setup() {}
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
+// cppcheck-suppress unusedFunction
+/**
+ * @brief Continuously called throught executuion. Used to actively control the
+ * board.
+ * See https://www.arduino.cc/reference/en/language/structure/sketch/loop/
+ */
+void loop() {}
