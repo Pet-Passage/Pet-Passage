@@ -1,13 +1,14 @@
 #include <Arduino.h>
 
 #include "magnetic_sensor_pair.hpp"
+#include "ports.h"
 
 #define BPS 9600
 
 enum class MagState { Closed = 1, OpenOut = 0, OpenIn = -1 };
 
-MagneticSensorPair<2, 3, MagState> sensor; // NOLINT(cert-err58-cpp)
-
+MagneticSensorPair<FRONT_MAG_PORT, BACK_MAG_PORT, MagState>
+    sensor;  // NOLINT(cert-err58-cpp)
 
 // cppcheck-suppress unusedFunction
 /**
@@ -21,6 +22,10 @@ void setup() {
   while (!Serial) {
   }
   sensor.init();
+  pinMode(CLOSED_LED_PORT, OUTPUT);
+  pinMode(OPEN_IN_LED_PORT, OUTPUT);
+  pinMode(OPEN_OUT_LED_PORT, OUTPUT);
+  pinMode(ERROR_LED_PORT, OUTPUT);
 }
 
 // cppcheck-suppress unusedFunction
@@ -32,19 +37,32 @@ void setup() {
 void loop() {
   sensor.updateState();
 
-  switch (sensor.getState())
-  {
-  case MagState::Closed:
-    Serial.println("MagState: Closed");
-    break;
-  case MagState::OpenOut:
-    Serial.println("MagState: Open (Out)");
-    break;
-  case MagState::OpenIn:
-    Serial.println("MagState: Open (In)");
-    break;
-  default:
-    Serial.println("MagState: INVALID!");
-    break;
+  Serial.println(static_cast<int>(sensor.getState()));
+
+  switch (sensor.getState()) {
+    case MagState::Closed:
+      digitalWrite(CLOSED_LED_PORT, HIGH);
+      digitalWrite(OPEN_IN_LED_PORT, LOW);
+      digitalWrite(OPEN_OUT_LED_PORT, LOW);
+      digitalWrite(ERROR_LED_PORT, LOW);
+      break;
+    case MagState::OpenIn:
+      digitalWrite(CLOSED_LED_PORT, LOW);
+      digitalWrite(OPEN_IN_LED_PORT, HIGH);
+      digitalWrite(OPEN_OUT_LED_PORT, LOW);
+      digitalWrite(ERROR_LED_PORT, LOW);
+      break;
+    case MagState::OpenOut:
+      digitalWrite(CLOSED_LED_PORT, LOW);
+      digitalWrite(OPEN_IN_LED_PORT, LOW);
+      digitalWrite(OPEN_OUT_LED_PORT, HIGH);
+      digitalWrite(ERROR_LED_PORT, LOW);
+      break;
+    default:
+      digitalWrite(CLOSED_LED_PORT, LOW);
+      digitalWrite(OPEN_IN_LED_PORT, LOW);
+      digitalWrite(OPEN_OUT_LED_PORT, LOW);
+      digitalWrite(ERROR_LED_PORT, HIGH);
+      break;
   }
 }
