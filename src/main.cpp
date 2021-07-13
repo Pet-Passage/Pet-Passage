@@ -6,7 +6,7 @@
 
 enum class MagState { Closed = 1, OpenOut = 0, OpenIn = -1 };
 
-MagneticSensorPair<2, 3, MagState> sensor;
+MagneticSensorPair<2, 3, MagState> sensor; // NOLINT(cert-err58-cpp)
 
 
 // cppcheck-suppress unusedFunction
