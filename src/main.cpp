@@ -10,6 +10,35 @@ enum class MagState { Closed = 1, OpenOut = 0, OpenIn = -1 };
 MagneticSensorPair<FRONT_MAG_PORT, BACK_MAG_PORT, MagState>
     sensor;  // NOLINT(cert-err58-cpp)
 
+void setLED(MagState &state) {
+  switch (state) {
+    case MagState::Closed:
+      digitalWrite(CLOSED_LED_PORT, HIGH);
+      digitalWrite(OPEN_IN_LED_PORT, LOW);
+      digitalWrite(OPEN_OUT_LED_PORT, LOW);
+      digitalWrite(ERROR_LED_PORT, LOW);
+      break;
+    case MagState::OpenIn:
+      digitalWrite(CLOSED_LED_PORT, LOW);
+      digitalWrite(OPEN_IN_LED_PORT, HIGH);
+      digitalWrite(OPEN_OUT_LED_PORT, LOW);
+      digitalWrite(ERROR_LED_PORT, LOW);
+      break;
+    case MagState::OpenOut:
+      digitalWrite(CLOSED_LED_PORT, LOW);
+      digitalWrite(OPEN_IN_LED_PORT, LOW);
+      digitalWrite(OPEN_OUT_LED_PORT, HIGH);
+      digitalWrite(ERROR_LED_PORT, LOW);
+      break;
+    default:
+      digitalWrite(CLOSED_LED_PORT, LOW);
+      digitalWrite(OPEN_IN_LED_PORT, LOW);
+      digitalWrite(OPEN_OUT_LED_PORT, LOW);
+      digitalWrite(ERROR_LED_PORT, HIGH);
+      break;
+  }
+}
+
 // cppcheck-suppress unusedFunction
 /**
  * @brief Called when the program starts. Initializes variables, pin modes,
@@ -37,32 +66,8 @@ void setup() {
 void loop() {
   sensor.updateState();
 
-  Serial.println(static_cast<int>(sensor.getState()));
 
-  switch (sensor.getState()) {
-    case MagState::Closed:
-      digitalWrite(CLOSED_LED_PORT, HIGH);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
-      break;
-    case MagState::OpenIn:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, HIGH);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
-      break;
-    case MagState::OpenOut:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, HIGH);
-      digitalWrite(ERROR_LED_PORT, LOW);
-      break;
-    default:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, HIGH);
-      break;
-  }
+  MagState state = sensor.getState();
+  Serial.println(static_cast<int>(state));
+  setLED(state);
 }
