@@ -36,8 +36,8 @@ jobs:
       run: pio run
 
     - name: "PlatformIO: Lint"
-      run: pio check
-    
+      run: pio check --fail-on-defect=low --fail-on-defect=medium --fail-on-defect=high
+
     # TODO: Uncomment when we have tests
     # - name: "PlatformIO: Test"
     #   run: pio test
