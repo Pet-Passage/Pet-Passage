@@ -3,7 +3,7 @@
 
 #include "magnetic_sensor_pair.hpp"
 
-template<uint8_t F, uint8_t S, class State>
+template <uint8_t F, uint8_t S, class State>
 void MagneticSensorPair<F, S, State>::init() {
   first.init();
   second.init();
