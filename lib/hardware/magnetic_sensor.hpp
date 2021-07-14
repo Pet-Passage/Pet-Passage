@@ -1,7 +1,7 @@
 #ifndef PET_PASSAGE_LIB_MAGNETIC_SENSOR_H_
 #define PET_PASSAGE_LIB_MAGNETIC_SENSOR_H_
 
-template <unsigned int Pin>
+template <uint8_t Pin>
 class MagneticSensor {
  public:
   MagneticSensor();

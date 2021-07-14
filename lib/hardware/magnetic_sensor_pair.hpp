@@ -3,7 +3,7 @@
 
 #include "magnetic_sensor.hpp"
 
-template <unsigned int F, unsigned int S, class State>
+template <uint8_t F, uint8_t S, class State>
 class MagneticSensorPair {
   public:
     void init();
