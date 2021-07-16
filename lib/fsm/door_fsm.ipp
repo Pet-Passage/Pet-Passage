@@ -4,7 +4,15 @@
 #include "door_fsm.hpp"
 
 template <uint8_t F, uint8_t S>
-void DoorStateManager<F, S>::init() { sensorPair.init(); }
+DoorStateManager<F, S>::DoorStateManager() {
+  state = DoorState::Initializing;
+}
+
+template <uint8_t F, uint8_t S>
+void DoorStateManager<F, S>::init() {
+  sensorPair.init();
+  state = sensorPair.getState()
+}
 
 template <uint8_t F, uint8_t S>
 void DoorStateManager<F, S>::update() {
@@ -39,7 +47,8 @@ void DoorStateManager<F, S>::update() {
 template <uint8_t F, uint8_t S>
 template <int I>
 constexpr void DoorStateManager<F, S>::onChange(hook_fn_t hook) {
-  static_assert(I < DOORSTATE_MAX_HOOKS, "Index greater than the max number of hooks");
+  static_assert(I < DOORSTATE_MAX_HOOKS,
+                "Index greater than the max number of hooks");
   hooks[I] = hook;
 }
 
