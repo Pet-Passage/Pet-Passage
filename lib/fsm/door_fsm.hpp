@@ -21,7 +21,7 @@ class DoorStateManager {
   DoorStateManager();
   void init();
   void update();
-  template <int I>
+  template <uint8_t I>
   constexpr void onChange(hook_fn_t hook);
 
  private:
