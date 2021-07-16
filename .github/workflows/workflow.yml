@@ -41,3 +41,13 @@ jobs:
     # TODO: Uncomment when we have tests
     # - name: "PlatformIO: Test"
     #   run: pio test
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@2
+
+      - name: Install clang-format
+        run: sudo apt-get install clang-format
+
+      - name: Validate Formatting
+        run: find include lib src -regex '.*\.\(cpp\|hpp\|ipp\|h\)' | xargs clang-format -style=file -n --Werror
