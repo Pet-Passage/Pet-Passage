@@ -1,30 +1,27 @@
 #include <Arduino.h>
 
-#include "magnetic_sensor_pair.hpp"
+#include "door_fsm.hpp"
 #include "ports.h"
 
 #define BPS 9600
 
-enum class MagState { Closed = 1, OpenOut = 0, OpenIn = -1 };
+DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT> stateManager;  // NOLINT(cert-err58-cpp)
 
-MagneticSensorPair<FRONT_MAG_PORT, BACK_MAG_PORT, MagState>
-    sensor;  // NOLINT(cert-err58-cpp)
-
-void setLED(MagState &state) {
+void setLED(DoorState &state) {
   switch (state) {
-    case MagState::Closed:
+    case DoorState::Closed:
       digitalWrite(CLOSED_LED_PORT, HIGH);
       digitalWrite(OPEN_IN_LED_PORT, LOW);
       digitalWrite(OPEN_OUT_LED_PORT, LOW);
       digitalWrite(ERROR_LED_PORT, LOW);
       break;
-    case MagState::OpenIn:
+    case DoorState::OpenIn:
       digitalWrite(CLOSED_LED_PORT, LOW);
       digitalWrite(OPEN_IN_LED_PORT, HIGH);
       digitalWrite(OPEN_OUT_LED_PORT, LOW);
       digitalWrite(ERROR_LED_PORT, LOW);
       break;
-    case MagState::OpenOut:
+    case DoorState::OpenOut:
       digitalWrite(CLOSED_LED_PORT, LOW);
       digitalWrite(OPEN_IN_LED_PORT, LOW);
       digitalWrite(OPEN_OUT_LED_PORT, HIGH);
@@ -50,7 +47,7 @@ void setup() {
   Serial.begin(BPS);
   while (!Serial) {
   }
-  sensor.init();
+  stateManager.init();
   pinMode(CLOSED_LED_PORT, OUTPUT);
   pinMode(OPEN_IN_LED_PORT, OUTPUT);
   pinMode(OPEN_OUT_LED_PORT, OUTPUT);
@@ -64,9 +61,8 @@ void setup() {
  * See https://www.arduino.cc/reference/en/language/structure/sketch/loop/
  */
 void loop() {
-  sensor.updateState();
-
-  MagState state = sensor.getState();
-  Serial.println(static_cast<int>(state));
-  setLED(state);
+  stateManager.update();
+  stateManager.onChange<0>(
+      [](DoorState &state) { Serial.println(static_cast<int>(state)); });
+  stateManager.onChange<1>(&setLED);
 }
