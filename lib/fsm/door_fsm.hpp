@@ -6,13 +6,19 @@
 
 #define DOORSTATE_MAX_HOOKS 2
 
-enum class DoorState : int8_t { OpenIn = -1, Closed = 1, OpenOut = 0 };
+enum class DoorState : int8_t {
+  OpenIn = -1,
+  Closed = 1,
+  OpenOut = 0,
+  Initializing = 127
+};
 
 typedef void (*hook_fn_t)(DoorState &state);
 
 template <uint8_t F, uint8_t S>
 class DoorStateManager {
  public:
+  DoorStateManager();
   void init();
   void update();
   template <int I>
