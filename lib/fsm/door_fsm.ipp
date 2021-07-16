@@ -11,7 +11,7 @@ DoorStateManager<F, S>::DoorStateManager() {
 template <uint8_t F, uint8_t S>
 void DoorStateManager<F, S>::init() {
   sensorPair.init();
-  state = sensorPair.getState()
+  state = sensorPair.getState();
 }
 
 template <uint8_t F, uint8_t S>
