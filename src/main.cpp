@@ -66,7 +66,6 @@ void setup() {
 void loop() {
   sensor.updateState();
 
-
   MagState state = sensor.getState();
   Serial.println(static_cast<int>(state));
   setLED(state);
