@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "door_fsm.hpp"
+#include "led_light_group.hpp"
 #include "ports.h"
 
 #define BPS 9600
@@ -8,34 +8,9 @@
 DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
     stateManager;  // NOLINT(cert-err58-cpp)
 
-void setLED(const DoorState &state) {
-  switch (state) {
-    case DoorState::Closed:
-      digitalWrite(CLOSED_LED_PORT, HIGH);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
-      break;
-    case DoorState::OpenIn:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, HIGH);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
-      break;
-    case DoorState::OpenOut:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, HIGH);
-      digitalWrite(ERROR_LED_PORT, LOW);
-      break;
-    default:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, HIGH);
-      break;
-  }
-}
+LedLightGroup<OPEN_IN_LED_PORT, CLOSED_LED_PORT, OPEN_OUT_LED_PORT,
+              ERROR_LED_PORT>
+    ledManager;  // NOLINT(cert-err58-cpp)
 
 // cppcheck-suppress unusedFunction
 /**
@@ -49,13 +24,7 @@ void setup() {
   while (!Serial) {
   }
   stateManager.init();
-  pinMode(CLOSED_LED_PORT, OUTPUT);
-  pinMode(OPEN_IN_LED_PORT, OUTPUT);
-  pinMode(OPEN_OUT_LED_PORT, OUTPUT);
-  pinMode(ERROR_LED_PORT, OUTPUT);
-  setLED(stateManager.getState());
-
-  Serial.println("Time, Data");
+  ledManager.init();
 }
 
 // cppcheck-suppress unusedFunction
