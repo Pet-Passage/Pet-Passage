@@ -20,7 +20,7 @@ void DoorStateManager<F, S>::update() {
   DoorState prevState = state;
   switch (sensorPair.getState()) {
     case DoorState::OpenIn:
-      if (state == DoorState::Closed) {
+      if (state == DoorState::OpenOut || state == DoorState::Closed) {
         state = DoorState::OpenIn;
       }
       break;
