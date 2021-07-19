@@ -41,3 +41,10 @@ jobs:
     # TODO: Uncomment when we have tests
     # - name: "PlatformIO: Test"
     #   run: pio test
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Validate Formatting
+        run: find include lib src -regex '.*\.\(cpp\|hpp\|ipp\|h\)' | xargs clang-format-12 -style=file -n --Werror
