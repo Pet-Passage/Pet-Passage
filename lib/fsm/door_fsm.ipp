@@ -45,7 +45,7 @@ void DoorStateManager<F, S>::update() {
 }
 
 template <uint8_t F, uint8_t S>
-template <int I>
+template <uint8_t I>
 constexpr void DoorStateManager<F, S>::onChange(hook_fn_t hook) {
   static_assert(I < DOORSTATE_MAX_HOOKS,
                 "Index greater than the max number of hooks");
