@@ -25,6 +25,7 @@ void setup() {
   }
   stateManager.init();
   ledManager.init();
+  Serial.println("Time, State");
 }
 
 // cppcheck-suppress unusedFunction
