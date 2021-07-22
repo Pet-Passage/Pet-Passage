@@ -13,7 +13,7 @@ enum class DoorState : int8_t {
   Initializing = 127
 };
 
-typedef void (*hook_fn_t)(DoorState &state);
+typedef void (*hook_fn_t)(const DoorState& state);
 
 template <uint8_t F, uint8_t S>
 class DoorStateManager {
@@ -23,6 +23,7 @@ class DoorStateManager {
   void update();
   template <uint8_t I>
   constexpr void onChange(hook_fn_t hook);
+  constexpr const DoorState& getState() const noexcept;
 
  private:
   DoorState state;

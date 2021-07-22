@@ -52,4 +52,9 @@ constexpr void DoorStateManager<F, S>::onChange(hook_fn_t hook) {
   hooks[I] = hook;
 }
 
+template <uint8_t F, uint8_t S>
+constexpr const DoorState& DoorStateManager<F, S>::getState() const noexcept {
+  return state;
+}
+
 #endif

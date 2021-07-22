@@ -8,7 +8,7 @@
 DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
     stateManager;  // NOLINT(cert-err58-cpp)
 
-void setLED(DoorState &state) {
+void setLED(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
       digitalWrite(CLOSED_LED_PORT, HIGH);
@@ -53,6 +53,7 @@ void setup() {
   pinMode(OPEN_IN_LED_PORT, OUTPUT);
   pinMode(OPEN_OUT_LED_PORT, OUTPUT);
   pinMode(ERROR_LED_PORT, OUTPUT);
+  setLED(stateManager.getState());
 }
 
 // cppcheck-suppress unusedFunction
@@ -64,6 +65,6 @@ void setup() {
 void loop() {
   stateManager.update();
   stateManager.onChange<0>(
-      [](DoorState &state) { Serial.println(static_cast<int>(state)); });
+      [](const DoorState &state) { Serial.println(static_cast<int>(state)); });
   stateManager.onChange<1>(&setLED);
 }
