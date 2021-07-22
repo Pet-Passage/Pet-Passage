@@ -5,7 +5,8 @@
 
 #define BPS 9600
 
-DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT> stateManager;  // NOLINT(cert-err58-cpp)
+DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
+    stateManager;  // NOLINT(cert-err58-cpp)
 
 void setLED(DoorState &state) {
   switch (state) {
