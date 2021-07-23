@@ -41,5 +41,6 @@ void loop() {
     Serial.print(",");
     Serial.println(static_cast<int>(state));
   });
-  stateManager.onChange<1>(&setLED);
+  stateManager.onChange<1>(
+      [](const DoorState &state) { ledManager.updateActive(state); });
 }

@@ -12,7 +12,7 @@ void LedLightGroup<OI, C, OO, E>::init() {
 }
 
 template <uint8_t OI, uint8_t C, uint8_t OO, uint8_t E>
-void LedLightGroup<OI, C, OO, E>::updateActive(DoorState &state) {
+void LedLightGroup<OI, C, OO, E>::updateActive(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
       closed.setHigh();

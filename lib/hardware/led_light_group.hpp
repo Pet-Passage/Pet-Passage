@@ -8,7 +8,7 @@ template <uint8_t OI, uint8_t C, uint8_t OO, uint8_t E>
 class LedLightGroup {
  public:
   void init();
-  void updateActive(DoorState &state);
+  void updateActive(const DoorState &state);
 
  private:
   LedLight<OI> openIn;
