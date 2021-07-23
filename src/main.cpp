@@ -54,6 +54,8 @@ void setup() {
   pinMode(OPEN_OUT_LED_PORT, OUTPUT);
   pinMode(ERROR_LED_PORT, OUTPUT);
   setLED(stateManager.getState());
+
+  Serial.println("Time, Data");
 }
 
 // cppcheck-suppress unusedFunction
@@ -64,7 +66,10 @@ void setup() {
  */
 void loop() {
   stateManager.update();
-  stateManager.onChange<0>(
-      [](const DoorState &state) { Serial.println(static_cast<int>(state)); });
+  stateManager.onChange<0>([](const DoorState &state) {
+    Serial.print(millis());
+    Serial.print(",");
+    Serial.println(static_cast<int>(state));
+  });
   stateManager.onChange<1>(&setLED);
 }
