@@ -13,30 +13,23 @@ void LedLightGroup<OI, C, OO, E>::init() {
 
 template <uint8_t OI, uint8_t C, uint8_t OO, uint8_t E>
 void LedLightGroup<OI, C, OO, E>::updateActive(const DoorState &state) {
+  current->setLow();
   switch (state) {
     case DoorState::Closed:
       closed.setHigh();
-      openIn.setLow();
-      openOut.setLow();
-      error.setLow();
+      current = &closed;
       break;
     case DoorState::OpenIn:
-      closed.setLow();
       openIn.setHigh();
-      openOut.setLow();
-      error.setLow();
+      current = &openIn;
       break;
     case DoorState::OpenOut:
-      closed.setLow();
-      openIn.setLow();
       openOut.setHigh();
-      error.setLow();
+      current = &openOut;
       break;
     default:
-      closed.setLow();
-      openIn.setLow();
-      openOut.setLow();
       error.setHigh();
+      current = &error;
       break;
   }
 }

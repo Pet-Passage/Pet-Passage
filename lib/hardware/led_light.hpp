@@ -2,19 +2,14 @@
 #define PET_PASSAGE_HARDWARE_LED_LIGHT_H_
 
 #include "Arduino.h"
+#include "led_base.hpp"
 
 template <uint8_t Pin>
-class LedLight {
+class LedLight : public LedBase {
  public:
-  LedLight();
-  void init();
-  void switchMode();
-  void setLow();
-  void setHigh();
-  uint8_t getMode();
-
- private:
-  bool mode;
+  void virtual init();
+  void virtual setLow();
+  void virtual setHigh();
 };
 
 #include "led_light.ipp"
