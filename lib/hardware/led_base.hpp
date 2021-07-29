@@ -3,14 +3,10 @@
 
 #include <Arduino.h>
 
-class LedBase {
- public:
+struct LedBase {
   virtual void init() = 0;
   virtual void setLow() = 0;
   virtual void setHigh() = 0;
-
- protected:
-  bool mode;
 };
 
 #endif
