@@ -2,6 +2,7 @@
 #define PET_PASSAGE_COUTER_COUNTER_H_
 
 #include <Arduino.h>
+
 #include "door_fsm.hpp"
 
 class Counter {

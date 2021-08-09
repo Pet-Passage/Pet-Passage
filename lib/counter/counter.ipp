@@ -22,10 +22,12 @@ Counter::Counter(uint8_t max) {  // overloaded constructor for a starting max
 void Counter::updateCount(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
-      if (millis() - lastTime < 200 && millis() - lastTime > 5 && lastState == DoorState::OpenIn) {
+      if (millis() - lastTime < 200 && millis() - lastTime > 5 &&
+          lastState == DoorState::OpenIn) {
         insideCount++;
         outsideCount--;
-      } else if (millis() - lastTime < 200 && millis() - lastTime > 5 && lastState == DoorState::OpenOut) {
+      } else if (millis() - lastTime < 200 && millis() - lastTime > 5 &&
+                 lastState == DoorState::OpenOut) {
         insideCount--;
         outsideCount++;
       }
