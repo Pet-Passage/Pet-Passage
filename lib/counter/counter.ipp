@@ -4,15 +4,15 @@
 #include "counter.hpp"
 
 Counter::Counter() {
-  insideCount = 0;
+  insideCount = 1;
   outsideCount = 0;
-  maxCount = 0;
+  maxCount = 1;
   lastTime = millis();
   lastState = DoorState::Closed;
 }
 
 Counter::Counter(uint8_t max) {  // overloaded constructor for a starting max
-  insideCount = 0;
+  insideCount = max;
   outsideCount = 0;
   maxCount = max;
   lastTime = millis();
@@ -51,5 +51,9 @@ void Counter::setMaxCount(uint8_t maxCount) { this->maxCount = maxCount; }
 uint8_t Counter::getInsideCount() { return this->insideCount; }
 
 uint8_t Counter::getOutsideCount() { return this->outsideCount; }
+
+void Counter::outputToScreen() {
+  screen.updateScreen(insideCount, outsideCount);
+}
 
 #endif

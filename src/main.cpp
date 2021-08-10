@@ -1,14 +1,16 @@
 #include <Arduino.h>
 
-#include "door_fsm.hpp"
 #include "ports.h"
 #include "rgb_led.hpp"
+//#include "door_fsm.hpp"
+#include "counter.hpp"
 
 #define BPS 9600
 #define HIGH_LED 255
 
 DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
     stateManager;  // NOLINT(cert-err58-cpp)
+Counter test;
 
 RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
     lightManager;  // NOLINT(cert-err58-cpp)
@@ -63,4 +65,5 @@ void loop() {
     Serial.println(static_cast<int>(state));
   });
   stateManager.onChange<1>(&setLED);
+  stateManager.onChange<2>([](const DoorState &state) {test.updateCount(state);});
 }
