@@ -9,6 +9,7 @@ Counter::Counter() {
   maxCount = 1;
   lastTime = millis();
   lastState = DoorState::Closed;
+  screen.init();
 }
 
 Counter::Counter(uint8_t max) {  // overloaded constructor for a starting max
@@ -17,19 +18,25 @@ Counter::Counter(uint8_t max) {  // overloaded constructor for a starting max
   maxCount = max;
   lastTime = millis();
   lastState = DoorState::Closed;
+  screen.init();
 }
 
 void Counter::updateCount(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
-      if (millis() - lastTime < 200 && millis() - lastTime > 5 &&
-          lastState == DoorState::OpenIn) {
+      if ((millis() - lastTime) < 2000 && (millis() - lastTime) > 5 &&
+          (outsideCount + insideCount) <= maxCount &&
+          (outsideCount + insideCount) >= 1 && lastState == DoorState::OpenIn) {
         insideCount++;
         outsideCount--;
-      } else if (millis() - lastTime < 200 && millis() - lastTime > 5 &&
+      } else if ((millis() - lastTime) < 2000 && (millis() - lastTime) > 5 &&
+                 (outsideCount + insideCount) <= maxCount &&
+                 (outsideCount + insideCount) >= 1 &&
                  lastState == DoorState::OpenOut) {
         insideCount--;
         outsideCount++;
+      } else {
+        Serial.println("Problem");
       }
       lastTime = millis();
       break;
@@ -42,6 +49,7 @@ void Counter::updateCount(const DoorState &state) {
       lastTime = millis();
       break;
     default:
+      Serial.print("uh oh");
       break;
   }
 }

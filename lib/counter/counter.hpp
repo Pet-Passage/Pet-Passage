@@ -2,9 +2,9 @@
 #define PET_PASSAGE_COUTER_COUNTER_H_
 
 #include "Arduino.h"
-
 #include "door_fsm.hpp"
 #include "lcd.hpp"
+#include "ports.h"
 
 class Counter {
  public:
@@ -22,7 +22,9 @@ class Counter {
   uint8_t maxCount;
   unsigned long lastTime;
   DoorState lastState;
-  Lcd screen;
+  Lcd<RS_SCREEN_PORT, E_SCREEN_PORT, D4_SCREEN_PORT, D5_SCREEN_PORT,
+      D6_SCREEN_PORT, D7_SCREEN_PORT>
+      screen;
 };
 
 #include "counter.ipp"
