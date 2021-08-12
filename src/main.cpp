@@ -65,5 +65,8 @@ void loop() {
     Serial.println(static_cast<int>(state));
   });
   stateManager.onChange<1>(&setLED);
-  stateManager.onChange<2>([](const DoorState &state) {test.updateCount(state);});
+  stateManager.onChange<2>([](const DoorState &state) {
+    test.updateCount(state);
+    test.outputToScreen();
+  });
 }
