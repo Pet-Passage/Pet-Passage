@@ -10,11 +10,11 @@
 
 DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
     stateManager;  // NOLINT(cert-err58-cpp)
-Counter test;
 
 RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
     lightManager;  // NOLINT(cert-err58-cpp)
 
+Counter test; // NOLINT(cert-err58-cpp)
 void setLED(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
