@@ -4,8 +4,8 @@
 #include "lcd.hpp"
 
 template <uint8_t RS, uint8_t E, uint8_t D4, uint8_t D5, uint8_t D6, uint8_t D7>
-void Lcd<RS, E, D4, D5, D6, D7>::init(){
-  LiquidCrystal lcd(RS,E,D4,D5,D6,D7);
+void Lcd<RS, E, D4, D5, D6, D7>::init() {
+  LiquidCrystal lcd(RS, E, D4, D5, D6, D7);
   lcd.print("Welcome!");
 }
 
