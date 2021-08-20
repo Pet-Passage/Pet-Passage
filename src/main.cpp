@@ -2,37 +2,29 @@
 
 #include "door_fsm.hpp"
 #include "ports.h"
+#include "rgb_led.hpp"
 
 #define BPS 9600
 
 DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
     stateManager;  // NOLINT(cert-err58-cpp)
 
-void setLED(const DoorState &state) {
+RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
+    lightManager;  // NOLINT(cert-err58-cpp)
+
+void setLED(const DoorState &state) {  // takes state and sets the RGB LED color
   switch (state) {
     case DoorState::Closed:
-      digitalWrite(CLOSED_LED_PORT, HIGH);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
+      lightManager.setColor(0, 255, 0);
       break;
     case DoorState::OpenIn:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, HIGH);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
+      lightManager.setColor(255, 255, 0);
       break;
     case DoorState::OpenOut:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, HIGH);
-      digitalWrite(ERROR_LED_PORT, LOW);
+      lightManager.setColor(0, 0, 255);
       break;
     default:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, HIGH);
+      lightManager.setColor(255, 0, 0);
       break;
   }
 }
@@ -49,10 +41,8 @@ void setup() {
   while (!Serial) {
   }
   stateManager.init();
-  pinMode(CLOSED_LED_PORT, OUTPUT);
-  pinMode(OPEN_IN_LED_PORT, OUTPUT);
-  pinMode(OPEN_OUT_LED_PORT, OUTPUT);
-  pinMode(ERROR_LED_PORT, OUTPUT);
+  lightManager.init();
+
   setLED(stateManager.getState());
 
   Serial.println("Time, Data");
