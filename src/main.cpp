@@ -5,6 +5,7 @@
 #include "rgb_led.hpp"
 
 #define BPS 9600
+#define HIGH_LED 255
 
 DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
     stateManager;  // NOLINT(cert-err58-cpp)
@@ -15,16 +16,16 @@ RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
 void setLED(const DoorState &state) {  // takes state and sets the RGB LED color
   switch (state) {
     case DoorState::Closed:
-      lightManager.setColor(0, 255, 0);
+      lightManager.setColor(0, HIGH_LED, 0);
       break;
     case DoorState::OpenIn:
-      lightManager.setColor(255, 255, 0);
+      lightManager.setColor(HIGH_LED, HIGH_LED, 0);
       break;
     case DoorState::OpenOut:
-      lightManager.setColor(0, 0, 255);
+      lightManager.setColor(0, 0, HIGH_LED);
       break;
     default:
-      lightManager.setColor(255, 0, 0);
+      lightManager.setColor(HIGH_LED, 0, 0);
       break;
   }
 }
