@@ -2,8 +2,8 @@
 
 #include "ports.h"
 #include "rgb_led.hpp"
-//#include "door_fsm.hpp"
 #include "counter.hpp"
+
 
 #define BPS 9600
 #define HIGH_LED 255
@@ -66,7 +66,7 @@ void loop() {
   });
   stateManager.onChange<1>(&setLED);
   stateManager.onChange<2>([](const DoorState &state) {
-    test.updateCount(state);
-    test.outputToScreen();
+    petCounter.updateCount(state);
+    petCounter.outputToScreen();
   });
 }

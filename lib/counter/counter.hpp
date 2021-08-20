@@ -12,9 +12,9 @@ class Counter {
   Counter(uint8_t max);
   void updateCount(const DoorState &state);
   void setMaxCount(uint8_t maxCount);
-  uint8_t getInsideCount();
-  uint8_t getOutsideCount();
   void outputToScreen();
+  uint8_t getOutsideCount();
+  uint8_t getInsideCount();
 
  private:
   uint8_t insideCount;
