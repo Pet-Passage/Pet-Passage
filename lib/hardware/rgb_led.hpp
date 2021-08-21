@@ -6,10 +6,18 @@
 template <uint8_t R, uint8_t G, uint8_t B>
 struct RgbLed {
  public:
+  /**
+   * Sets the pin mode for each port given in template
+   */
   void init();  // call on setup, will set pinmode for ports
-  void setColor(uint8_t red, uint8_t green,
-                uint8_t blue);  // sets color of rgb, passing in each color as
-                                // an RGB value
+  /**
+   * Sets the color of an LED light off a given RGB code
+   *
+   * @param red uint8_t for the Red of RGB code
+   * @param green uint8_t for the Green RGB code
+   * @param blue uint8_t for the Blue RGB code
+   */
+  void setColor(uint8_t red, uint8_t green, uint8_t blue);
 };
 
 #include "rgb_led.ipp"
