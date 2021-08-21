@@ -9,7 +9,7 @@ struct RgbLed {
   /**
    * Sets the pin mode for each port given in template
    */
-  void init();  // call on setup, will set pinmode for ports
+  void init();
   /**
    * Sets the color of an LED light off a given RGB code
    *
