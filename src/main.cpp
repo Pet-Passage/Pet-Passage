@@ -13,7 +13,7 @@ DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
 RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
     lightManager;  // NOLINT(cert-err58-cpp)
 
-void setLED(const DoorState &state) {  // takes state and sets the RGB LED color
+void setLED(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
       lightManager.setColor(0, HIGH_LED, 0);
