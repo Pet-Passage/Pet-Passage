@@ -61,7 +61,7 @@ uint8_t Counter::getInsideCount() { return this->insideCount; }
 uint8_t Counter::getOutsideCount() { return this->outsideCount; }
 
 void Counter::outputToScreen() {
-  screen.updateScreen(insideCount, outsideCount);
+  //screen.updateScreen(insideCount, outsideCount);
 }
 
 #endif
