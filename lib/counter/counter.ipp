@@ -56,12 +56,13 @@ void Counter::updateCount(const DoorState &state) {
 
 void Counter::setMaxCount(uint8_t maxCount) { this->maxCount = maxCount; }
 
-uint8_t Counter::getInsideCount() { return this->insideCount; }
+int Counter::getInsideCount() { return this->insideCount; }
 
-uint8_t Counter::getOutsideCount() { return this->outsideCount; }
+int Counter::getOutsideCount() { return this->outsideCount; }
 
 void Counter::outputToScreen() {
-  //screen.updateScreen(insideCount, outsideCount);
+  screen.doubleLineScreen("Pets Inside: " + String(insideCount),
+                          "Pets Outside: " + String(outsideCount));
 }
 
 #endif
