@@ -10,7 +10,7 @@
 class Counter {
  public:
   Counter();
-  Counter(uint8_t max);
+  explicit Counter(uint8_t max);
   void updateCount(const DoorState &state);
   void setMaxCount(uint8_t maxCount);
   void outputToScreen();
