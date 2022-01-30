@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "door_fsm.hpp"
+#include "counter.hpp"
 #include "ports.h"
 #include "rgb_led.hpp"
 
@@ -13,6 +13,7 @@ DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
 RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
     lightManager;  // NOLINT(cert-err58-cpp)
 
+Counter petCounter;  // NOLINT(cert-err58-cpp)
 void setLED(const DoorState &state) {
   switch (state) {
     case DoorState::Closed:
@@ -63,4 +64,8 @@ void loop() {
     Serial.println(static_cast<int>(state));
   });
   stateManager.onChange<1>(&setLED);
+  stateManager.onChange<2>([](const DoorState &state) {
+    petCounter.updateCount(state);
+    petCounter.outputToScreen();
+  });
 }

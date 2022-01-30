@@ -13,4 +13,11 @@
 #define OPEN_OUT_LED_PORT 3
 #define ERROR_LED_PORT 5
 
+#define RS_SCREEN_PORT 6
+#define E_SCREEN_PORT 7
+#define D4_SCREEN_PORT 8
+#define D5_SCREEN_PORT 9
+#define D6_SCREEN_PORT 10
+#define D7_SCREEN_PORT 11
+
 #endif

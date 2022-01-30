@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "magnetic_sensor_pair.hpp"
 
-#define DOORSTATE_MAX_HOOKS 2
+#define DOORSTATE_MAX_HOOKS 3
 
 enum class DoorState : int8_t {
   OpenIn = -1,
