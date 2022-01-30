@@ -1,12 +1,23 @@
 #ifndef PET_PASSAGE_PORTS_H_
 #define PET_PASSAGE_PORTS_H_
 
-#define FRONT_MAG_PORT    12
-#define BACK_MAG_PORT     13
+#define FRONT_MAG_PORT 13
+#define BACK_MAG_PORT 12
 
-#define CLOSED_LED_PORT   2
-#define OPEN_IN_LED_PORT  4
+#define RGB_LED_R_PORT A3
+#define RGB_LED_G_PORT A2
+#define RGB_LED_B_PORT A1
+
+#define CLOSED_LED_PORT 2
+#define OPEN_IN_LED_PORT 4
 #define OPEN_OUT_LED_PORT 3
-#define ERROR_LED_PORT    5
+#define ERROR_LED_PORT 5
+
+#define RS_SCREEN_PORT 6
+#define E_SCREEN_PORT 7
+#define D4_SCREEN_PORT 8
+#define D5_SCREEN_PORT 9
+#define D6_SCREEN_PORT 10
+#define D7_SCREEN_PORT 11
 
 #endif

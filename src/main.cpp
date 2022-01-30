@@ -1,40 +1,32 @@
 #include <Arduino.h>
 
-#include "magnetic_sensor_pair.hpp"
+#include "counter.hpp"
 #include "ports.h"
+#include "rgb_led.hpp"
 
 #define BPS 9600
+#define HIGH_LED 255
 
-enum class MagState { Closed = 1, OpenOut = 0, OpenIn = -1 };
+DoorStateManager<FRONT_MAG_PORT, BACK_MAG_PORT>
+    stateManager;  // NOLINT(cert-err58-cpp)
 
-MagneticSensorPair<FRONT_MAG_PORT, BACK_MAG_PORT, MagState>
-    sensor;  // NOLINT(cert-err58-cpp)
+RgbLed<RGB_LED_R_PORT, RGB_LED_G_PORT, RGB_LED_B_PORT>
+    lightManager;  // NOLINT(cert-err58-cpp)
 
-void setLED(MagState &state) {
+Counter petCounter;  // NOLINT(cert-err58-cpp)
+void setLED(const DoorState &state) {
   switch (state) {
-    case MagState::Closed:
-      digitalWrite(CLOSED_LED_PORT, HIGH);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
+    case DoorState::Closed:
+      lightManager.setColor(0, HIGH_LED, 0);
       break;
-    case MagState::OpenIn:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, HIGH);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, LOW);
+    case DoorState::OpenIn:
+      lightManager.setColor(HIGH_LED, HIGH_LED, 0);
       break;
-    case MagState::OpenOut:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, HIGH);
-      digitalWrite(ERROR_LED_PORT, LOW);
+    case DoorState::OpenOut:
+      lightManager.setColor(0, 0, HIGH_LED);
       break;
     default:
-      digitalWrite(CLOSED_LED_PORT, LOW);
-      digitalWrite(OPEN_IN_LED_PORT, LOW);
-      digitalWrite(OPEN_OUT_LED_PORT, LOW);
-      digitalWrite(ERROR_LED_PORT, HIGH);
+      lightManager.setColor(HIGH_LED, 0, 0);
       break;
   }
 }
@@ -50,11 +42,12 @@ void setup() {
   Serial.begin(BPS);
   while (!Serial) {
   }
-  sensor.init();
-  pinMode(CLOSED_LED_PORT, OUTPUT);
-  pinMode(OPEN_IN_LED_PORT, OUTPUT);
-  pinMode(OPEN_OUT_LED_PORT, OUTPUT);
-  pinMode(ERROR_LED_PORT, OUTPUT);
+  stateManager.init();
+  lightManager.init();
+
+  setLED(stateManager.getState());
+
+  Serial.println("Time, Data");
 }
 
 // cppcheck-suppress unusedFunction
@@ -64,10 +57,15 @@ void setup() {
  * See https://www.arduino.cc/reference/en/language/structure/sketch/loop/
  */
 void loop() {
-  sensor.updateState();
-
-
-  MagState state = sensor.getState();
-  Serial.println(static_cast<int>(state));
-  setLED(state);
+  stateManager.update();
+  stateManager.onChange<0>([](const DoorState &state) {
+    Serial.print(millis());
+    Serial.print(",");
+    Serial.println(static_cast<int>(state));
+  });
+  stateManager.onChange<1>(&setLED);
+  stateManager.onChange<2>([](const DoorState &state) {
+    petCounter.updateCount(state);
+    petCounter.outputToScreen();
+  });
 }
